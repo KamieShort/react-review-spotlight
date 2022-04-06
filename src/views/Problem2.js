@@ -1,4 +1,20 @@
+import React, { useState, useEffect } from 'react';
+import CatList from '../components/Cats/CatList';
+import { fetchCats } from '../services/cats';
+
 export default function Problem2() {
+  const [cat, setCat] = useState([]);
+  const [cats, setCats] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchCats();
+
+      setCats(data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="problem-container">
       <h2>Problem 2: Loading Data with useEffect</h2>
@@ -18,7 +34,10 @@ export default function Problem2() {
           </li>
         </ol>
       </div>
-      <div className="cats-container">{/* Put CatList component here */}</div>
+      <div className="cats-container">
+        <CatList {...cat} />
+        <p>{cat.type}</p>
+      </div>
     </div>
   );
 }
